@@ -1,3 +1,6 @@
+/**
+ * Created by zhang tingjian on 2021/9/29.
+ */
 public final class Dictionary {
 
     private final int[] status;
@@ -77,7 +80,7 @@ public final class Dictionary {
     }
 
     public static void main(String[] args) {
-        Dictionary d = new Dictionary(4);
+        Dictionary d = new Dictionary(3);
         d.generate();
     }
 }

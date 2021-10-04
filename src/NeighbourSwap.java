@@ -1,12 +1,12 @@
 /**
- * Created by zhang tingjian on 2021/9/30.
+ * Created by zhang tingjian on 2021/10/3.
  */
-public class IncrementalCarry {
+public class NeighbourSwap {
 
     private final int[] status;
     private final int sLen; //length of status, equals to length of sequence minus one
 
-    public IncrementalCarry(int len) {
+    public NeighbourSwap(int len) {
         if (len <= 1) {
             throw new IllegalArgumentException("len must greater than one!");
         }
@@ -23,7 +23,7 @@ public class IncrementalCarry {
 
     private boolean isFinished() {
         for (int i = 0; i < sLen; i++) {
-            if (status[i] != sLen - i) {
+            if (status[i] != i + 1) {
                 return false;
             }
         }
@@ -33,9 +33,9 @@ public class IncrementalCarry {
     private void toNextStatus() {
         status[sLen - 1] += 1;
         for (int i = sLen - 1; i >= 0; i--) {
-            if (status[i] >= sLen - i + 1) {
-                status[i - 1] += status[i] / (sLen - i + 1);
-                status[i] %= sLen - i + 1;
+            if (status[i] >= i + 2) {
+                status[i - 1] += status[i] / (i + 2);
+                status[i] %= i + 2;
             } else {
                 break;
             }
@@ -45,17 +45,31 @@ public class IncrementalCarry {
     private int[] convert() {
         int[] ret = new int[sLen + 1];
         boolean[] flags = new boolean[sLen + 1];
-        for (int i = 0; i < sLen; i++) {
-            int digit = sLen + 1 - i;
+        for (int i = sLen - 1; i >= 0; i--) {
+            int digit = i + 2;
+            boolean goLeft = digit % 2 == 0 ? (digit == 2 || (status[i - 1] + status[i - 2]) % 2 == 0) : status[i - 1] % 2 == 0;
             int count = 0;
-            for (int j = flags.length - 1; j >= 0; j--) {
-                if (count == status[i] && !flags[j]) {
-                    ret[j] = digit;
-                    flags[j] = true;
-                    break;
+            if (goLeft) {
+                for (int j = flags.length - 1; j >= 0; j--) {
+                    if (count == status[i] && !flags[j]) {
+                        ret[j] = digit;
+                        flags[j] = true;
+                        break;
+                    }
+                    if (!flags[j]) {
+                        count ++;
+                    }
                 }
-                if (!flags[j]) {
-                    count ++;
+            } else {
+                for (int j = 0; j < flags.length; j++) {
+                    if (count == status[i] && !flags[j]) {
+                        ret[j] = digit;
+                        flags[j] = true;
+                        break;
+                    }
+                    if (!flags[j]) {
+                        count ++;
+                    }
                 }
             }
         }
@@ -90,17 +104,9 @@ public class IncrementalCarry {
         return sb.toString();
     }
 
-    private static void bar(int[] arr) {
-        for (int i : arr) {
-            System.out.print(i);
-            System.out.print(" ");
-        }
-        System.out.println();
-    }
-
     public static void main(String[] args) {
-        IncrementalCarry ic = new IncrementalCarry(3);
-        ic.generate();
+        NeighbourSwap ns = new NeighbourSwap(3);
+        ns.generate();
     }
 
 }

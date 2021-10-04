@@ -1,12 +1,12 @@
 /**
- * Created by zhang tingjian on 2021/9/30.
+ * Created by zhang tingjian on 2021/10/3.
  */
-public class IncrementalCarry {
+public class DecrementalCarry {
 
     private final int[] status;
     private final int sLen; //length of status, equals to length of sequence minus one
 
-    public IncrementalCarry(int len) {
+    public DecrementalCarry(int len) {
         if (len <= 1) {
             throw new IllegalArgumentException("len must greater than one!");
         }
@@ -23,7 +23,7 @@ public class IncrementalCarry {
 
     private boolean isFinished() {
         for (int i = 0; i < sLen; i++) {
-            if (status[i] != sLen - i) {
+            if (status[i] != i + 1) {
                 return false;
             }
         }
@@ -33,9 +33,9 @@ public class IncrementalCarry {
     private void toNextStatus() {
         status[sLen - 1] += 1;
         for (int i = sLen - 1; i >= 0; i--) {
-            if (status[i] >= sLen - i + 1) {
-                status[i - 1] += status[i] / (sLen - i + 1);
-                status[i] %= sLen - i + 1;
+            if (status[i] >= i + 2) {
+                status[i - 1] += status[i] / (i + 2);
+                status[i] %= i + 2;
             } else {
                 break;
             }
@@ -49,7 +49,7 @@ public class IncrementalCarry {
             int digit = sLen + 1 - i;
             int count = 0;
             for (int j = flags.length - 1; j >= 0; j--) {
-                if (count == status[i] && !flags[j]) {
+                if (count == status[sLen - 1 - i] && !flags[j]) {
                     ret[j] = digit;
                     flags[j] = true;
                     break;
@@ -99,8 +99,8 @@ public class IncrementalCarry {
     }
 
     public static void main(String[] args) {
-        IncrementalCarry ic = new IncrementalCarry(3);
-        ic.generate();
+        DecrementalCarry dc = new DecrementalCarry(3);
+        dc.generate();
     }
 
 }
