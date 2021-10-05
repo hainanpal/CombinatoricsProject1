@@ -1,5 +1,5 @@
 /**
- * Created by zhang tingjian on {DATE}
+ * Created by zhang tingjian on 2021/10/5
  */
 public final class Dictionary extends PermGenerator {
 
