@@ -1,48 +1,24 @@
 /**
  * Created by zhang tingjian on 2021/10/3.
  */
-public class NeighbourSwap {
-
-    private final int[] status;
-    private final int sLen; //length of status, equals to length of sequence minus one
+public final class NeighbourSwap extends PermGenerator {
 
     public NeighbourSwap(int len) {
-        if (len <= 1) {
-            throw new IllegalArgumentException("len must greater than one!");
-        }
-        status = new int[len - 1];
-        this.sLen = len - 1;
-        reset();
+        super(len);
     }
 
-    public void reset() {
-        for (int i = 0; i < sLen; i++) {
-            status[i] = 0;
-        }
+    @Override
+    protected boolean isFinished() {
+        return isBiggestDC();
     }
 
-    private boolean isFinished() {
-        for (int i = 0; i < sLen; i++) {
-            if (status[i] != i + 1) {
-                return false;
-            }
-        }
-        return true;
+    @Override
+    protected void toNextStatus() {
+        addOneByDC();
     }
 
-    private void toNextStatus() {
-        status[sLen - 1] += 1;
-        for (int i = sLen - 1; i >= 0; i--) {
-            if (status[i] >= i + 2) {
-                status[i - 1] += status[i] / (i + 2);
-                status[i] %= i + 2;
-            } else {
-                break;
-            }
-        }
-    }
-
-    private int[] convert() {
+    @Override
+    protected int[] convert() {
         int[] ret = new int[sLen + 1];
         boolean[] flags = new boolean[sLen + 1];
         for (int i = sLen - 1; i >= 0; i--) {
@@ -80,28 +56,6 @@ public class NeighbourSwap {
             }
         }
         return ret;
-    }
-
-    public void generate() {
-        int total = 0;
-        while (!isFinished()) {
-            System.out.println(this);
-            toNextStatus();
-            total ++;
-        }
-        System.out.println(this);
-        total ++;
-        System.out.println(total + " sequences in total");
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i : convert()) {
-            sb.append(i);
-            sb.append(" ");
-        }
-        return sb.toString();
     }
 
     public static void main(String[] args) {
