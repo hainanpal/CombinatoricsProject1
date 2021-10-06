@@ -1,3 +1,8 @@
+package project1.generator;
+
+import project1.intermedia.DecrementalCarryNumber;
+import project1.intermedia.IntermediaNumber;
+
 /**
  * Created by zhang tingjian on 2021/10/3.
  */
@@ -8,24 +13,19 @@ public final class DecrementalCarry extends PermGenerator {
     }
 
     @Override
-    protected boolean isFinished() {
-        return isBiggestDC();
-    }
-
-    @Override
-    protected void toNextStatus() {
-        addOneByDC();
+    protected IntermediaNumber initIntermedia(int len) {
+        return new DecrementalCarryNumber(len);
     }
 
     @Override
     protected int[] convert() {
-        int[] ret = new int[sLen + 1];
-        boolean[] flags = new boolean[sLen + 1];
-        for (int i = 0; i < sLen; i++) {
-            int digit = sLen + 1 - i;
+        int[] ret = new int[iLen + 1];
+        boolean[] flags = new boolean[iLen + 1];
+        for (int i = 0; i < iLen; i++) {
+            int digit = iLen + 1 - i;
             int count = 0;
             for (int j = flags.length - 1; j >= 0; j--) {
-                if (count == status[sLen - 1 - i] && !flags[j]) {
+                if (count == intermedia.get(iLen - 1 - i) && !flags[j]) {
                     ret[j] = digit;
                     flags[j] = true;
                     break;
@@ -42,11 +42,6 @@ public final class DecrementalCarry extends PermGenerator {
             }
         }
         return ret;
-    }
-
-    public static void main(String[] args) {
-        DecrementalCarry dc = new DecrementalCarry(3);
-        dc.generate();
     }
 
 }

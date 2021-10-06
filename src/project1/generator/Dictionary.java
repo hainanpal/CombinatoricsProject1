@@ -1,3 +1,8 @@
+package project1.generator;
+
+import project1.intermedia.IncrementalCarryNumber;
+import project1.intermedia.IntermediaNumber;
+
 /**
  * Created by zhang tingjian on 2021/10/5
  */
@@ -8,23 +13,18 @@ public final class Dictionary extends PermGenerator {
     }
 
     @Override
-    protected boolean isFinished() {
-        return isBiggestIC();
-    }
-
-    @Override
-    protected void toNextStatus() {
-        addOneByIC();
+    protected IntermediaNumber initIntermedia(int len) {
+        return new IncrementalCarryNumber(len);
     }
 
     @Override
     protected int[] convert() {
-        int[] ret = new int[sLen + 1];
-        boolean[] flags = new boolean[sLen + 1];
-        for (int i = 0; i < sLen; i++) {
+        int[] ret = new int[iLen + 1];
+        boolean[] flags = new boolean[iLen + 1];
+        for (int i = 0; i < iLen; i++) {
             int count = 0;
             for (int j = 0; j < flags.length; j++) {
-                if (count == status[i] && !flags[j]) {
+                if (count == intermedia.get(i) && !flags[j]) {
                     ret[i] = j + 1;
                     flags[j] = true;
                     break;
@@ -36,16 +36,11 @@ public final class Dictionary extends PermGenerator {
         }
         for (int i = 0; i < flags.length; i++) {
             if (!flags[i]) {
-                ret[sLen] = i + 1;
+                ret[iLen] = i + 1;
                 break;
             }
         }
         return ret;
-    }
-
-    public static void main(String[] args) {
-        Dictionary d = new Dictionary(3);
-        d.generate();
     }
 
 }
