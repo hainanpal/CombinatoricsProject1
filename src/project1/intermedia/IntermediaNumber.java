@@ -13,6 +13,12 @@ public abstract class IntermediaNumber {
         this.length = length;
     }
 
+    public final void reset() {
+        for (int i = 0; i < length; i++) {
+            numbers[i] = 0;
+        }
+    }
+
     /**
      * add one to intermedia number
      */

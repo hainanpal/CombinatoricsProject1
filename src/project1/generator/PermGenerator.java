@@ -1,6 +1,7 @@
 package project1.generator;
 
 import project1.intermedia.IntermediaNumber;
+import project1.writer.SequenceWriter;
 
 /**
  * Created by zhang tingjian on 2021/10/5
@@ -18,6 +19,10 @@ public abstract class PermGenerator {
         intermedia = initIntermedia(len - 1);
     }
 
+    public final void reset() {
+        intermedia.reset();
+    }
+
     protected abstract IntermediaNumber initIntermedia(int len);
 
     /**
@@ -29,16 +34,12 @@ public abstract class PermGenerator {
     /**
      * generate all permutations
      */
-    public final void generate() {
-        int total = 0;
+    public final void generate(SequenceWriter writer) {
         while (!intermedia.isBiggest()) {
-            System.out.println(this);
+            writer.write(convert());
             intermedia.increment();
-            total ++;
         }
-        System.out.println(this);
-        total ++;
-        System.out.println(total + " sequences in total");
+        writer.write(convert());
     }
 
     @Override
