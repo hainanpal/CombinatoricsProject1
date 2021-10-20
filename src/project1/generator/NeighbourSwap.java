@@ -28,6 +28,7 @@ public final class NeighbourSwap extends PermGenerator {
             int count = 0;
             if (goLeft) {
                 for (int j = flags.length - 1; j >= 0; j--) {
+                    addCycleCounter();
                     if (count == intermedia.get(i) && !flags[j]) {
                         ret[j] = digit;
                         flags[j] = true;
@@ -39,6 +40,7 @@ public final class NeighbourSwap extends PermGenerator {
                 }
             } else {
                 for (int j = 0; j < flags.length; j++) {
+                    addCycleCounter();
                     if (count == intermedia.get(i) && !flags[j]) {
                         ret[j] = digit;
                         flags[j] = true;
@@ -51,6 +53,7 @@ public final class NeighbourSwap extends PermGenerator {
             }
         }
         for (int i = 0; i < flags.length; i++) {
+            addCycleCounter();
             if (!flags[i]) {
                 ret[i] = 1;
                 break;

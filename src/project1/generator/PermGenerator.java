@@ -10,6 +10,8 @@ public abstract class PermGenerator {
 
     protected final IntermediaNumber intermedia;
     protected final int iLen;
+    private long outerCycleCounter = 0;
+    private long innerCycleCounter = 0;
 
     public PermGenerator(int len) {
         if (len <= 1) {
@@ -21,6 +23,10 @@ public abstract class PermGenerator {
 
     public final void reset() {
         intermedia.reset();
+    }
+
+    protected final void addCycleCounter() {
+        innerCycleCounter ++;
     }
 
     protected abstract IntermediaNumber initIntermedia(int len);
@@ -36,10 +42,14 @@ public abstract class PermGenerator {
      */
     public final void generate(SequenceWriter writer) {
         while (!intermedia.isBiggest()) {
+            outerCycleCounter ++;
             writer.write(convert());
             intermedia.increment();
         }
+        outerCycleCounter ++;
         writer.write(convert());
+        System.out.printf("length: %d, total cycle: %d, average: %f%n", iLen + 1, innerCycleCounter,
+                (double) innerCycleCounter / outerCycleCounter);
     }
 
     @Override

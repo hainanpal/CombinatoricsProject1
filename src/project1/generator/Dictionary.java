@@ -24,6 +24,7 @@ public final class Dictionary extends PermGenerator {
         for (int i = 0; i < iLen; i++) {
             int count = 0;
             for (int j = 0; j < flags.length; j++) {
+                addCycleCounter();
                 if (count == intermedia.get(i) && !flags[j]) {
                     ret[i] = j + 1;
                     flags[j] = true;
@@ -35,6 +36,7 @@ public final class Dictionary extends PermGenerator {
             }
         }
         for (int i = 0; i < flags.length; i++) {
+            addCycleCounter();
             if (!flags[i]) {
                 ret[iLen] = i + 1;
                 break;

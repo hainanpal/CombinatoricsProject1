@@ -25,6 +25,7 @@ public final class IncrementalCarry extends PermGenerator {
             int digit = iLen + 1 - i;
             int count = 0;
             for (int j = flags.length - 1; j >= 0; j--) {
+                addCycleCounter();
                 if (count == intermedia.get(i) && !flags[j]) {
                     ret[j] = digit;
                     flags[j] = true;
@@ -36,6 +37,7 @@ public final class IncrementalCarry extends PermGenerator {
             }
         }
         for (int i = 0; i < flags.length; i++) {
+            addCycleCounter();
             if (!flags[i]) {
                 ret[i] = 1;
                 break;
